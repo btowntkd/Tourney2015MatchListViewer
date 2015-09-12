@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Tourney2015MatchListViewer
+namespace MatchListViewer
 {
     /// <summary>
     /// Interaction logic for App.xaml

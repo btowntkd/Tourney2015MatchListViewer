@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="MatchListViewer.MatchTemplate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MatchListViewer"
+             mc:Ignorable="d" 
+             Height="80" d:DesignWidth="800" Margin="3">
+    <Border BorderBrush="Gray" BorderThickness="3" CornerRadius="8" Background="GhostWhite">
+        <Grid Margin="-3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Match Number -->
+            <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Match" HorizontalAlignment="Center" FontSize="14" />
+                <TextBlock Text="001" HorizontalAlignment="Center" FontSize="32" FontWeight="Bold" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Ring" HorizontalAlignment="Center" FontSize="14" />
+                <TextBlock Text="8" HorizontalAlignment="Center" FontSize="32" FontWeight="Bold" />
+            </StackPanel>
+
+            <Border Grid.Column="2" BorderThickness="0,3" BorderBrush="DarkBlue" Background="#CCCCFF">
+                
+            </Border>
+            <Border Grid.Column="3" BorderThickness="0,3" BorderBrush="DarkRed" Background="#FFCCCC">
+
+            </Border>
+
+        </Grid>
+    </Border>
+</UserControl>
