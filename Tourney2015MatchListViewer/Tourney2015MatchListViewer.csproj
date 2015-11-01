@@ -76,9 +76,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MatchItemVM.cs" />
     <Compile Include="MatchTemplate.xaml.cs">
       <DependentUpon>MatchTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Mvvm\DependsOnAttribute.cs" />
+    <Compile Include="Mvvm\ExpressionExtensions.cs" />
+    <Compile Include="Mvvm\ObservableObject.cs" />
+    <Compile Include="Mvvm\Ref.cs" />
+    <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -96,15 +102,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="..\TestInput.csv">
-      <Link>TestInput.csv</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Content Include="TestData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

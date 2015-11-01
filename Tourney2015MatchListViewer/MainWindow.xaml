@@ -9,7 +9,8 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
         StateChanged="Window_StateChanged"
-        Title="MainWindow" Height="350" Width="525">
+        Loaded="Window_Loaded"
+        Title="MainWindow" Height="350" Width="525" Background="Black">
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{x:Static SystemCommands.CloseWindowCommand}" />
         <KeyBinding Key="F11" Command="{x:Static SystemCommands.MaximizeWindowCommand}" />
@@ -22,22 +23,16 @@
     </Window.CommandBindings>
     <Grid>
         <ScrollViewer CanContentScroll="False">
-            <StackPanel Orientation="Vertical">
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-                <local:MatchTemplate />
-            </StackPanel>
+            <ItemsControl ItemsSource="{Binding MatchItems}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:MatchItemVM}">
+                        <local:MatchTemplate />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
+        <Grid x:Name="errorOverlay" Background="White" Visibility="Collapsed">
+            <TextBlock x:Name="errorText" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="10" TextWrapping='Wrap' Text="There was an error" />
+        </Grid>
     </Grid>
 </Window>

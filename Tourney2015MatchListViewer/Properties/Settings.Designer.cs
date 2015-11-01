@@ -31,5 +31,14 @@ namespace MatchListViewer.Properties {
                 return ((string)(this["MatchListCsvFilePath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        public long UpdateIntervalMilliseconds {
+            get {
+                return ((long)(this["UpdateIntervalMilliseconds"]));
+            }
+        }
     }
 }
