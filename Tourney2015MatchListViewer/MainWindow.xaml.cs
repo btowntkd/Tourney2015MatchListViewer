@@ -38,16 +38,26 @@ namespace MatchListViewer
             InputFilePath = startupSettings.MatchListCsvFilePath;
 
             _matchItems = new ObservableCollection<MatchItemVM>();
+            _matchItems.CollectionChanged += MatchItems_CollectionChanged;
             
             RefreshTimer = new Timer();
+            RefreshTimer.Interval = UpdateIntervalMilliseconds;
             RefreshTimer.Elapsed += RefreshTimer_Elapsed;
+            RefreshTimer.Start();
+        }
+
+        private void MatchItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            matchScroller.ScrollToEnd();
         }
 
         public ObservableCollection<MatchItemVM> MatchItems { get { return _matchItems; } }
 
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            RefreshCsvData(InputFilePath);
+            RefreshTimer.Stop();
+            Dispatcher.Invoke((Action)(() => RefreshCsvData(InputFilePath)));
+            RefreshTimer.Start();
         }
 
         public void RefreshCsvData(string filename)
@@ -69,19 +79,15 @@ namespace MatchListViewer
                 errorOverlay.Visibility = Visibility.Visible;
             }
 
-            var fileLines = csvContents.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.None).Skip(1); //skip the header
+            var fileLines = csvContents.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Skip(1); //skip the header
             foreach (var line in fileLines)
             {
                 var columns = line.Split(',');
-                var matchItem = new MatchItemVM();
-                matchItem.MatchID = ToNullableInt(columns[0]);
-                matchItem.RingID = ToNullableInt(columns[1]);
-                matchItem.BlueName = columns[2];
-                matchItem.BlueNextMatchID = ToNullableInt(columns[3]);
-                matchItem.RedName = columns[4];
-                matchItem.RedNextMatchID = ToNullableInt(columns[5]);
-
-                AddOrUpdateMatchItem(matchItem);
+                var matchItem = ConvertToMatchItem(columns);
+                if (matchItem != null)
+                {
+                    AddOrUpdateMatchItem(matchItem);
+                }
             }
         }
 
@@ -91,6 +97,31 @@ namespace MatchListViewer
             if(Int32.TryParse(input, out result))
                 return result;
             return null;
+        }
+
+        protected MatchItemVM ConvertToMatchItem(string[] csvColumns)
+        {
+            const int Column_MatchID = 0;
+            const int Column_RingID = 1;
+            const int Column_BlueName = 2;
+            const int Column_BlueNextMatchID = 3;
+            const int Column_RedName = 4;
+            const int Column_RedNextMatchID = 5;
+            try
+            {
+                var matchItem = new MatchItemVM();
+                matchItem.MatchID = csvColumns.Length > Column_MatchID ? ToNullableInt(csvColumns[Column_MatchID]) : null;
+                matchItem.RingID = csvColumns.Length > Column_RingID ? ToNullableInt(csvColumns[Column_RingID]) : null;
+                matchItem.BlueName = csvColumns.Length > Column_BlueName ? csvColumns[Column_BlueName] : string.Empty;
+                matchItem.BlueNextMatchID = csvColumns.Length > Column_BlueNextMatchID ? ToNullableInt(csvColumns[Column_BlueNextMatchID]) : null;
+                matchItem.RedName = csvColumns.Length > Column_RedName ? csvColumns[Column_RedName] : string.Empty;
+                matchItem.RedNextMatchID = csvColumns.Length > Column_RedNextMatchID ? ToNullableInt(csvColumns[Column_RedNextMatchID]) : null;
+                return matchItem;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         protected void AddOrUpdateMatchItem(MatchItemVM matchItem)
